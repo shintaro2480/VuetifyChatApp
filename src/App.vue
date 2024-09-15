@@ -1,7 +1,7 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <!-- <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link> -->
   </nav>
   <v-app>
     <v-navigation-drawer v-model="drawer">
@@ -83,10 +83,15 @@ nav a.router-link-exact-active {
 }
 
 nav.v-navigation-drawer.v-navigation-drawer--left.v-navigation-drawer--active.v-theme--light {
-    background-color: #89cfcf;
+  background-color: #96e7e0;
+    
 }
 
 .bg-grey-lighten-4 {
     background-color: #f5f5f500 !important;
+}
+
+nav {
+    padding: 0px;
 }
 </style>
