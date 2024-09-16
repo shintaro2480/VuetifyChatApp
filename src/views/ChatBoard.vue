@@ -61,14 +61,27 @@
   
   <script>
 
+//まずはfirebaseを読み込む
+import firebase from '@/firebase/firebase'
+
 export default {
     //以下のcreatedはライフサイクルフック。
-    created(){
+
+
+    
+    async created(){
         console.log("created call");
         //右辺は、現在のURLクエリ「user_id」を取得するための関数
         this.user_id = this.$route.query.user_id;
         console.log("user_id", this.user_id);
         this.isInvalid = true;
+
+        const chatRef = firebase.firestore().collection("chats");
+        const snapShot = await chatRef.get();
+        //firebaseのドキュメント(つまりデータベースでいうところのフィールド)ごとにデータを取得
+        snapShot.forEach(doc => {
+            console.log(doc.data)
+        })
     },
     data: () => ({
         messages: [
