@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 //import HomeView from '../views/HomeView.vue'
 import UserList from '../views/UserList.vue'
 import ChatBoard from '../views/ChatBoard.vue'
+import LoginView from '../views/LoginView.vue'
+import SignUp from '../views/SignUp.vue'
 
 const routes = [
   {
@@ -20,10 +22,16 @@ const routes = [
   {
     path: '/chat',
     name: 'ChatBoard',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: ChatBoard
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginView
+  },{
+    path: '/signup',
+    name: 'SignUp',
+    component: SignUp
   }
 ]
 

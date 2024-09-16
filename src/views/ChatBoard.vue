@@ -1,5 +1,5 @@
 <template>
-        <p>{{ JSON.stringify(chatList, null, 2) }}</p>
+
     <v-app>
         <v-main>
             <v-container
@@ -143,5 +143,9 @@ export default {
   .button {
     margin: 5px;
   }
+
+.message{
+    text-align: left;
+}
 
 </style>
