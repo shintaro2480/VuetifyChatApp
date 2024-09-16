@@ -1,4 +1,5 @@
 <template>
+        <p>{{ JSON.stringify(chatList, null, 2) }}</p>
     <v-app>
         <v-main>
             <v-container
@@ -61,14 +62,31 @@
   
   <script>
 
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '@/firebase/firebase'; // 初期化したFirestoreインスタンスをインポート
+
+
 export default {
     //以下のcreatedはライフサイクルフック。
-    created(){
+    async created(){
         console.log("created call");
         //右辺は、現在のURLクエリ「user_id」を取得するための関数
         this.user_id = this.$route.query.user_id;
         console.log("user_id", this.user_id);
         this.isInvalid = true;
+        //firestoreを呼び出す
+        //const chatRef = firebase.firestore().collection("chats");
+        //console.log("chatRef", chatRef);
+        const chatRef = collection(db, 'chats'); // コレクションを参照
+        const chatSnapshot = await getDocs(chatRef); // ドキュメントを取得
+        const chatList = chatSnapshot.docs.map(doc => doc.data()); // ドキュメントデータをリストに変換
+        console.log(JSON.stringify(chatList, null, 2)); // チャットデータをコンソールに表示
+        // this.messages.push(chatList);
+        // chatListの内容をmessages配列に追加
+      chatList.forEach(chat => {
+        this.messages.push({ message: chat.message });
+      });
+
     },
     data: () => ({
         messages: [
