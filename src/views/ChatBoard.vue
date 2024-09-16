@@ -15,35 +15,115 @@
                     <v-list lines="two">
                         <v-list-subheader :title="card"></v-list-subheader>
 
-                        <template v-for="n in 6" :key="n">
+                        <template v-for="(data, index) in messages" :key="index">
                         <v-list-item>
                             <template v-slot:prepend>
-                            <v-avatar color="grey-darken-1"></v-avatar>
+                            <v-avatar color="blue"></v-avatar>
                             </template>
 
-                            <v-list-item-title :title="`Message ${n}`"></v-list-item-title>
-
-                            <v-list-item-subtitle title="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil repellendus distinctio similique"></v-list-item-subtitle>
+                            <v-list-item-subtitle class="message">{{ data.message }}</v-list-item-subtitle>
                         </v-list-item>
 
-                        <v-divider
-                            v-if="n !== 6"
+                        <!-- <v-divider
+                            v-if="index !== 6"
                             :key="`divider-${n}`"
                             inset
-                        ></v-divider>
+                        ></v-divider> -->
+
                         </template>
                     </v-list>
                     </v-card>
                 </v-col>
                 </v-row>
             </v-container>
+            <v-textarea
+            v-model="body"
+                append-icon="mdi-comment"
+                class="mx-2 messageButtons"
+                label="メッセージを送信する"
+                rows="3"
+                auto-grow
+                >
+                    </v-textarea>
+                        <v-app class="center">
+                <v-container>
+                <v-btn @click="submit" class="me-4"  prepend-icon="$edit" :disabled="isInvalid">
+                    メッセージを追加
+                </v-btn>
+                <v-btn @click="clear" prepend-icon="$close">
+                    リセット
+                </v-btn>
+                </v-container>
+            </v-app>
         </v-main>
     </v-app>
   </template>
   
-  <script setup>
+  <script>
+
+export default {
+    //以下のcreatedはライフサイクルフック。
+    created(){
+        console.log("created call");
+        //右辺は、現在のURLクエリ「user_id」を取得するための関数
+        this.user_id = this.$route.query.user_id;
+        console.log("user_id", this.user_id);
+        this.isInvalid = true;
+    },
+    data: () => ({
+        messages: [
+            {message: "message 1"},
+            {message: "message 2"},
+        ],
+        body: '',
+        user_id:'',
+        cards: ['Today'],
+        drawer: null,
+        links: [
+            ['mdi-inbox-arrow-down', 'Inbox'],
+            ['mdi-send', 'Send'],
+            ['mdi-delete', 'Trash'],
+            ['mdi-alert-octagon', 'Spam'],
+        ],
+        // invalid:false
+    }),
+    methods: {
+        clear() {
+            console.log("clear call.")
+            this.body = "";
+        },
+        submit() {
+            console.log("submit call" , this.body)
+            //以下のようにして、messages
+            this.messages.unshift({message: this.body});
+            this.body = "";
+        }
+    },
+    computed: {
+        isInvalid(){
+            //invalidが実行されたら、メッセージ表示
+            console.log("invalid call", this.body)
+            //もしbodyの中が空だったら、tureを返す
+            if(this.body) {
+                return false;
+            }
+            //そうでなければ、falseを返す
+            return true;
+        }
+    }
+  }
 
 
-  const cards = ['Today', 'Yesterday']
 
 </script>
+
+<style>
+  .center {
+    text-align: center;
+  }
+
+  .button {
+    margin: 5px;
+  }
+
+</style>
